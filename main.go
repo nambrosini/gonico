@@ -14,11 +14,7 @@ type Person struct {
 	Age       int    `json:"age"`
 }
 
-var people = []Person{
-	{ID: "1", FirstName: "Nico", LastName: "Ambrosini", Age: 24},
-	{ID: "2", FirstName: "Elia", LastName: "Ambrosini", Age: 22},
-	{ID: "3", FirstName: "Ari", LastName: "Ambrosini", Age: 57},
-}
+var people = []Person{ }
 
 func main() {
 	r := gin.Default()
@@ -30,6 +26,7 @@ func main() {
 
 func AssignRoutes(r *gin.Engine) {
 	r.GET("/", HomepageHandler)
+    r.GET("/ping", PingHandler)
 	r.GET("/people", GetAllPeopleHandler)
 	r.GET("/person/:id", GetPersonHandler)
 
@@ -44,6 +41,12 @@ func HomepageHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Welcome to gonico!",
 	})
+}
+
+func PingHandler(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H {
+        "message": "pong",
+    })
 }
 
 func GetAllPeopleHandler(c *gin.Context) {
