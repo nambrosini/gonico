@@ -13,21 +13,19 @@ jobs:
           command: |
             mkdir -p /tmp/test-results/jest/
             go install gotest.tools/gotestsum@latest
+            go install github.com/axw/gocov/gocov@latest
+            go install github.com/AlekSi/gocov-xml@latest
       - run:
           command: |
             gotestsum --junitfile gotestsum-report.xml
             mv gotestsum-report.xml /tmp/test-results/jest/
       - run:
           command: |
-            go test -coverprofile=c.out
-            go tool cover -html=c.out -o coverage.html
-            mv coverage.html /tmp/artifacts
-      - coveralls/upload
+            gocov test github.com/gorilla/mux | gocov-xml > coverage.xml
+            mv coverage.xml /tmp/artifacts
+      - codecov/upload
+          file: /tmp/artifacts/coverage.xml
       - store_artifacts:
           path: /tmp/artifacts
       - store_test_results:
           path: /tmp/test-results
-
-notify:
-  webhooks:
-    - url: https://coveralls.io/webhook?repo_token=${process.env.COVERALLS_REPO_TOKEN}
