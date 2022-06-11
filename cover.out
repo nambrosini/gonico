@@ -1,0 +1,24 @@
+mode: set
+github.com/nambrosini/gonico/main.go:23.13,29.2 3 0
+github.com/nambrosini/gonico/main.go:31.34,41.2 6 1
+github.com/nambrosini/gonico/main.go:43.38,47.2 1 1
+github.com/nambrosini/gonico/main.go:49.42,51.2 1 1
+github.com/nambrosini/gonico/main.go:53.39,56.35 2 1
+github.com/nambrosini/gonico/main.go:63.2,65.4 1 1
+github.com/nambrosini/gonico/main.go:56.35,57.25 1 1
+github.com/nambrosini/gonico/main.go:57.25,60.4 2 1
+github.com/nambrosini/gonico/main.go:68.39,71.53 2 1
+github.com/nambrosini/gonico/main.go:78.5,78.31 1 1
+github.com/nambrosini/gonico/main.go:82.2,83.39 2 1
+github.com/nambrosini/gonico/main.go:71.53,76.3 2 1
+github.com/nambrosini/gonico/main.go:78.31,80.6 1 1
+github.com/nambrosini/gonico/main.go:86.42,90.50 3 1
+github.com/nambrosini/gonico/main.go:97.2,97.35 1 1
+github.com/nambrosini/gonico/main.go:105.2,107.4 1 1
+github.com/nambrosini/gonico/main.go:90.50,95.3 2 1
+github.com/nambrosini/gonico/main.go:97.35,98.25 1 1
+github.com/nambrosini/gonico/main.go:98.25,102.4 3 1
+github.com/nambrosini/gonico/main.go:110.42,113.35 2 1
+github.com/nambrosini/gonico/main.go:122.2,124.4 1 1
+github.com/nambrosini/gonico/main.go:113.35,114.25 1 1
+github.com/nambrosini/gonico/main.go:114.25,119.4 4 1

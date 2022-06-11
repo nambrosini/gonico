@@ -7,27 +7,37 @@ import (
 	"github.com/rs/xid"
 )
 
-type Company struct {
-	ID		string 	`json:"id"`
-	Name	string	`json:"name"`
-	CEO		string	`json:"ceo"`
-	Revenue	string	`json:"revenue"`
+type Person struct {
+	ID        string `json:"id"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Age       int    `json:"age"`
 }
 
-var companies = []Company{
-    {ID: "1", Name: "Dell", CEO: "Michael Dell", Revenue: "92.2 billion"},
-    {ID: "2", Name: "Netflix", CEO: "Reed Hastings", Revenue: "20.2 billion"},
-    {ID: "3", Name: "Microsoft", CEO: "Satya Nadella", Revenue: "320 million"},
+var people = []Person{
+	{ID: "1", FirstName: "Nico", LastName: "Ambrosini", Age: 24},
+	{ID: "2", FirstName: "Elia", LastName: "Ambrosini", Age: 22},
+	{ID: "3", FirstName: "Ari", LastName: "Ambrosini", Age: 57},
 }
 
 func main() {
-    router := gin.Default()
-    router.GET("/", HomepageHandler)
-    router.GET("/companies", GetCompaniesHandler)
-    router.POST("/company", NewCompanyHandler)
-    router.PUT("/company/:id", UpdateCompanyHandler)
-    router.DELETE("/company/:id", DeleteCompanyHandler)
-    router.Run()
+	r := gin.Default()
+
+    AssignRoutes(r)
+
+	r.Run()
+}
+
+func AssignRoutes(r *gin.Engine) {
+	r.GET("/", HomepageHandler)
+	r.GET("/people", GetAllPeopleHandler)
+	r.GET("/person/:id", GetPersonHandler)
+
+	r.POST("/person", NewPersonHandler)
+
+	r.PUT("/person/:id", UpdatePersonHandler)
+
+	r.DELETE("/person/:id", DeletePersonHandler)
 }
 
 func HomepageHandler(c *gin.Context) {
@@ -36,65 +46,80 @@ func HomepageHandler(c *gin.Context) {
 	})
 }
 
-func NewCompanyHandler(c *gin.Context) {
-	var newCompany Company
-	if err := c.ShouldBindJSON(&newCompany); err != nil {
+func GetAllPeopleHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, people)
+}
+
+func GetPersonHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	for i := 0; i < len(people); i++ {
+		if people[i].ID == id {
+			c.JSON(http.StatusOK, people[i])
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{
+		"message": "Person not found.",
+	})
+}
+
+func NewPersonHandler(c *gin.Context) {
+	var newPerson Person
+
+	if err := c.ShouldBindJSON(&newPerson); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
 
-	newCompany.ID = xid.New().String()
-	companies = append(companies, newCompany)
-	c.JSON(http.StatusCreated, newCompany)
+    if len(newPerson.ID) == 0 {
+        newPerson.ID = xid.New().String()
+    }
+
+	people = append(people, newPerson)
+	c.JSON(http.StatusCreated, newPerson)
 }
 
-func GetCompaniesHandler(c *gin.Context) {
-    c.JSON(http.StatusOK, companies)
+func UpdatePersonHandler(c *gin.Context) {
+	id := c.Param("id")
+	var person Person
+
+	if err := c.ShouldBindJSON(&person); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	for i := 0; i < len(people); i++ {
+		if people[i].ID == id {
+			people[i] = person
+			c.JSON(http.StatusOK, person)
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{
+		"message": "Person not found",
+	})
 }
 
-func UpdateCompanyHandler(c *gin.Context) {
-    id := c.Param("id")
-    var company Company
-    if err := c.ShouldBindJSON(&company); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{
-            "error": err.Error(),
-        })
-        return
-    }
-    index := -1
-    for i := 0; i < len(companies); i++ {
-        if companies[i].ID == id {
-            index = 1
-        }
-    }
-    if index == -1 {
-        c.JSON(http.StatusNotFound, gin.H{
-            "error": "Company not found",
-        })
-        return
-    }
-    companies[index] = company
-    c.JSON(http.StatusOK, company)
-}
+func DeletePersonHandler(c *gin.Context) {
+	id := c.Param("id")
 
-func DeleteCompanyHandler(c *gin.Context) {
-    id := c.Param("id")
-    index := -1
-    for i := 0; i < len(companies); i++ {
-        if companies[i].ID == id {
-            index = 1
-        }
-    }
-    if index == -1 {
-        c.JSON(http.StatusNotFound, gin.H{
-            "error": "Company not found",
-        })
-        return
-    }
-    companies = append(companies[:index], companies[index+1:]...)
-    c.JSON(http.StatusOK, gin.H{
-        "message": "Company has been deleted",
-    })
+	for i := 0; i < len(people); i++ {
+		if people[i].ID == id {
+			person := people[i]
+			people = append(people[:i], people[i+1:]...)
+			c.JSON(http.StatusOK, person)
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{
+		"message": "Person not found",
+	})
 }
