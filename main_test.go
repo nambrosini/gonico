@@ -51,6 +51,20 @@ func TestHomepageHandler(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
+func TestPingHandler(t *testing.T) {
+    mockResponse := `{"message": "pong"}`
+
+    r := SetUpRouter()
+
+    req, _ := http.NewRequest("GET", "/ping", nil)
+    w := httptest.NewRecorder()
+    r.ServeHTTP(w, req)
+
+    responseData, _ := ioutil.ReadAll(w.Body)
+    assert.Equal(t, mockResponse, string(responseData))
+    assert.Equal(t, http.StatusOK, w.Code)
+}
+
 // GET /person/:id
 func TestGetPersonHandler(t *testing.T) {
     r := SetUpRouter()
