@@ -21,7 +21,7 @@ jobs:
             mv gotestsum-report.xml /tmp/test-results/jest/
       - run:
           command: |
-            gocov test github.com/gorilla/mux | gocov-xml > coverage.xml
+            gocov test | gocov-xml > coverage.xml
             cp coverage.xml /tmp/artifacts
       - codecov/upload:
           file: coverage.xml
