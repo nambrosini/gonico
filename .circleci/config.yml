@@ -13,11 +13,13 @@ jobs:
       - go/save-cache
       - run:
           name: "Create a temp directory for artifacts"
-          command: mkdir -p /tmp/artifacts
+          command: |
+            mkdir -p /tmp/artifacts
+            go install github.com/axw/gocov/gocov@latest
+            go install github.com/AlekSi/gocov-xml@latest
       - run:
           command: |
-            go test -coverprofile=c.out
-            go tool cover -html=c.out -o coverage.html
-            mv coverage.html /tmp/artifacts
-      - store_artifacts:
+            go test | gocov-xml > coverage.xml
+            mv coverage.xml /tmp/artifacts
+      - store_test_results:
           path: /tmp/artifacts
