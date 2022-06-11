@@ -15,11 +15,10 @@ jobs:
           name: "Create a temp directory for artifacts"
           command: |
             mkdir -p /tmp/test-results/jest/
-            go install github.com/axw/gocov/gocov@latest
-            go install github.com/AlekSi/gocov-xml@latest
+            go install gotest.tools/gotestsum@latest
       - run:
           command: |
-            gocov test | gocov-xml > coverage.xml
-            mv coverage.xml /tmp/test-results/jest/
+            gotestsum --junitfile gotestsum-report.xml
+            mv gotestsum-report.xml /tmp/test-results/jest/
       - store_test_results:
           path: /tmp/test-results
