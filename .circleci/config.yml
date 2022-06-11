@@ -20,5 +20,12 @@ jobs:
           command: |
             gotestsum --junitfile gotestsum-report.xml
             mv gotestsum-report.xml /tmp/test-results/jest/
+      - run:
+          command: |
+            go test -coverprofile=c.out
+            go tool cover -html=c.out -o coverage.html
+            mv coverage.html /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
       - store_test_results:
           path: /tmp/test-results
