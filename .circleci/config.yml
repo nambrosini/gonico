@@ -23,7 +23,7 @@ jobs:
           command: |
             gocov test github.com/gorilla/mux | gocov-xml > coverage.xml
             cp coverage.xml /tmp/artifacts
-      - codecov/upload
+      - codecov/upload:
           file: coverage.xml
       - store_artifacts:
           path: /tmp/artifacts
