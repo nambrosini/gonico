@@ -52,7 +52,7 @@ func TestHomepageHandler(t *testing.T) {
 }
 
 func TestPingHandler(t *testing.T) {
-    mockResponse := `{"message": "pong"}`
+    mockResponse := `{"message":"pong"}`
 
     r := SetUpRouter()
 
