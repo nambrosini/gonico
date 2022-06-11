@@ -9,12 +9,11 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/xid"
 	"github.com/stretchr/testify/assert"
 )
 
 var testPerson = Person{
-    ID:        xid.New().String(),
+    ID:        "1",
     FirstName: "Pinco",
     LastName:  "Pallino",
     Age:       25,
@@ -24,6 +23,7 @@ var testPerson = Person{
 func SetUpRouter() *gin.Engine {
     r := gin.Default()
     AssignRoutes(r)
+    CreatePerson(r, testPerson)
     return r
 }
 
