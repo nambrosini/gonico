@@ -3,9 +3,8 @@ orbs:
   go: coveralls/coveralls@1.0.6
 jobs:
   build:
-    executor:
-      name: go/default
-      tag: "1.16"
+    docker:
+      image: 'circleci/go@1.7.1'
     steps:
       - checkout
       - run: go mod download
