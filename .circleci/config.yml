@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      image: 'circleci/go@1.7.1'
+      - image: 'circleci/go@1.7.1'
     steps:
       - checkout
       - run: go mod download
