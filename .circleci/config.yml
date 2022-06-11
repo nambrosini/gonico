@@ -19,7 +19,7 @@ jobs:
             go install github.com/AlekSi/gocov-xml@latest
       - run:
           command: |
-            go test | gocov-xml > coverage.xml
+            gocov test | gocov-xml > coverage.xml
             mv coverage.xml /tmp/test-results/jest/
       - store_test_results:
           path: /tmp/test-results
