@@ -24,8 +24,7 @@ jobs:
             gocov test github.com/gorilla/mux | gocov-xml > coverage.xml
             cp coverage.xml /tmp/artifacts
       - codecov/upload
-        file:
-          coverage.xml
+          file: coverage.xml
       - store_artifacts:
           path: /tmp/artifacts
       - store_test_results:
