@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: 'cimg/go@1.18.3'
+      - image: 'cimg/go:1.18.3'
     steps:
       - checkout
       - run: go mod download
